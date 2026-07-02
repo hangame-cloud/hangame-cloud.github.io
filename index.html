@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Hangame — Coming Soon</title>
+    <meta name="description" content="Hangame Cloud Gaming Experience">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --red: #ff1f45;
+            --red2: #ff445f;
+            --bg: #050505;
+            --white: #ffffff;
+            --gray: #8b8b8b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background:
+                radial-gradient(circle at top, #3b0008 0%, transparent 45%),
+                radial-gradient(circle at bottom right, #2a0006 0%, transparent 35%),
+                #050505;
+            color: white;
+            font-family: Inter, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Mouse glow */
+        .cursor-light {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            pointer-events: none;
+            background: radial-gradient(circle, var(--red), transparent 70%);
+            opacity: .18;
+            filter: blur(40px);
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .grid {
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .8), transparent);
+            z-index: 0;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 720px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: Orbitron;
+            font-size: clamp(3rem, 15vw, 6rem);
+            font-weight: 800;
+            letter-spacing: .15em;
+            color: white;
+            text-shadow:
+                0 0 10px var(--red),
+                0 0 30px var(--red),
+                0 0 60px var(--red);
+            animation: pulse 2s infinite;
+        }
+
+        .domain {
+            margin-top: 12px;
+            color: var(--red2);
+            font-size: .95rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            margin-top: 40px;
+            font-family: Orbitron;
+            font-size: clamp(1.1rem, 5vw, 2rem);
+            color: white;
+            min-height: 48px;
+        }
+
+        .description {
+            margin: 28px auto;
+            max-width: 520px;
+            line-height: 1.8;
+            color: #bfbfbf;
+            font-size: 1rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 999px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, .04);
+            box-shadow:
+                0 0 25px rgba(255, 0, 60, .2);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--red);
+            box-shadow: 0 0 20px var(--red);
+            animation: blink 1s infinite;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 24px;
+            width: 100%;
+            left: 0;
+            text-align: center;
+            color: #777;
+            font-size: .8rem;
+        }
+
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--red);
+            opacity: .5;
+            animation: rise linear infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        @keyframes blink {
+            50% { opacity: .2; }
+        }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            20% { opacity: .8; }
+            to {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        .typing::after {
+            content: "|";
+            margin-left: 4px;
+            animation: cursor .8s infinite;
+            color: var(--red);
+        }
+
+        @keyframes cursor {
+            50% { opacity: 0; }
+        }
+
+        @media(min-width:768px) {
+            .description { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-light"></div>
+    <div class="grid"></div>
+    <div id="particles"></div>
+
+    <section class="hero">
+        <div class="content">
+            <div class="logo">
+                HANGAME
+            </div>
+            <div class="domain">
+                hangame.cloud
+            </div>
+            <div class="tagline typing" id="typing"></div>
+            <p class="description">
+                The next-generation cloud gaming experience is almost here.
+                Prepare for ultra-fast gameplay, immersive worlds, and limitless adventures.
+            </p>
+            <div class="badge">
+                <div class="dot"></div>
+                <span>Launching Soon</span>
+            </div>
+        </div>
+        <footer>
+            © 2026 Hangame Cloud
+        </footer>
+    </section>
+
+    <script>
+        // Mouse glow
+        const glow = document.querySelector(".cursor-light");
+
+        window.addEventListener("mousemove", e => {
+            glow.style.left = e.clientX + "px";
+            glow.style.top = e.clientY + "px";
+        });
+
+        // Typing
+        const text = "LEVEL UP YOUR GAMING.";
+        const typing = document.getElementById("typing");
+
+        let i = 0;
+
+        function type() {
+            if (i < text.length) {
+                typing.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, 80);
+            }
+        }
+
+        type();
+
+        // Floating particles
+        const container = document.getElementById("particles");
+
+        for (let i = 0; i < 45; i++) {
+            const p = document.createElement("div");
+
+            p.className = "particle";
+            p.style.left = Math.random() * 100 + "vw";
+            p.style.animationDuration = (6 + Math.random() * 8) + "s";
+            p.style.animationDelay = Math.random() * 8 + "s";
+            p.style.opacity = Math.random();
+            p.style.width = p.style.height = (2 + Math.random() * 3) + "px";
+
+            container.appendChild(p);
+        }
+
+        // Fade in
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.animate([
+                        {
+                            opacity: 0,
+                            transform: "translateY(40px)"
+                        },
+                        {
+                            opacity: 1,
+                            transform: "translateY(0)"
+                        }
+                    ], {
+                        duration: 1000,
+                        fill: "forwards",
+                        easing: "cubic-bezier(.2,.8,.2,1)"
+                    });
+                }
+            });
+        });
+
+        document.querySelectorAll(".content>*").forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
